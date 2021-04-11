@@ -1,3 +1,14 @@
+public class Item
+{
+    private int myCatNum, myInventory;
+    public Item(int nNum, int nInv)
+    {
+        myCatNum = nNum;
+        myInventory = nInv;
+    }
+    public int getCatNum(){return myCatNum;}
+    public int getInventory(){return myInventory;}
+}
 private Item[] store = 
 {
   new Item(184, 14), 
@@ -23,22 +34,60 @@ private Item[] store =
 };                             
 public int linearSearch(int catNumToFind)
 {
-  //complete this method
+ int total = 0;
+  for (int i = 0; i < store.length; i++) {
+    if (store[i].getCatNum() == catNumToFind) {
+      return total;
+    }else {
+      total++;
+    }
+  }
+  
   return -1;
 }
 public int recursiveLinearSearch(int catNumToFind, int startIndex)
 {
-  //complete this method
-  return -1;
+  boolean bruh = false;
+  for (int i = 0; i < store.length; i++)
+    if (store[i].getCatNum() == catNumToFind)
+      if (i >= startIndex)
+        bruh = true;
+  if (bruh == false) 
+    return -1;
+  else 
+    if (store[startIndex].getCatNum() == catNumToFind) 
+      return 0;
+    if (startIndex+1 < store.length)
+      return 1 + recursiveLinearSearch(catNumToFind, startIndex+1);
+  return 0;
 }
 public int binarySearch(int catNumToFind)
 {
-  //complete this method    
+  int low = 0;
+  int high = store.length - 1;
+  while (low <= high) {
+    int guess = (low + high)/2;
+    if (store[guess].getCatNum() == catNumToFind) {
+      return guess;
+    } else if (store[guess].getCatNum() > catNumToFind) {
+      high = guess - 1;
+    } else {
+      low = guess + 1;
+    }
+  }
   return -1;
 }
-public int recursiveBinarySearch(int catNumToFind, int nLow, int nHigh)
+public int recursiveBinarySearch(int target, int low, int high)
 {
-  //complete this method    
+  int guess = (low + high) / 2;
+  if (low > high)
+    return -1;
+  if (store[guess].getCatNum() > target)
+    return recursiveBinarySearch(target,low,guess-1);
+  if (store[guess].getCatNum() < target)
+    return recursiveBinarySearch(target,guess+1,high);
+  if (store[guess].getCatNum() == target)
+    return guess;
   return -1;
 }
 public void setup()
@@ -94,9 +143,3 @@ public void draw()
 {
   //empty!
 }
-
-
-
-
-
-
